@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} View {% endblock title %}
+{% block pagetitle %} View {% endblock pagetitle %}
+
+{% block script %}
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <center>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-dismissible alert-{{ message.tags }}">
+                    <strong>{{ message }}</strong>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </center>
+    </div>
+    {% if status %}
+        <div class="container">
+            {% if share.expiry_time %}
+                <div class="alert alert-dismissible alert-info">
+                    <center><strong>
+                        This link will expire on {{share.expiry_time}}
+                    </strong></center>
+                </div>
+            {% endif %}
+            <p><b>{{share.name}}</b></p>
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="{% url 'sharebin:add_or_edit_paste' share.uid %}" class="btn btn-secondary">
+                        <i class="fa fa-edit"></i>&nbsp;Edit
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="{% url 'sharebin:view_raw_paste' share.uid %}" class="btn btn-secondary">
+                        <i class="fa fa-eye"></i>&nbsp;Raw
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fa fa-angle-left"></i>&nbsp;<i class="fa fa-angle-right"></i>
+                        Embed
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="{% url 'sharebin:download_paste' share.uid %}" class="btn btn-secondary">
+                        <i class="fa fa-download"></i>&nbsp;Download
+                    </a>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-header">{{share.get_syntax_display }}</div>
+                <div class="card-body">
+                    <pre>
+                        <code class="{{share.syntax}} hljs">{{share.text}}</code>
+                    </pre>
+                </div>
+            </div>
+            <br>
+            <strong>RAW Paste Data</strong>
+            <textarea class="form-control" rows="10" cols="40">{{share.text}}</textarea>
+            <br>
+        </div>
+    {% endif %}
+{% endblock content %}
