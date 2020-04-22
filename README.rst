@@ -13,6 +13,7 @@ Requirements
 ^^^^^^^^^^^^
 
 - Python 3.6
+- Django 3.0.4
 - mysqlclient 1.4.6
 
 Installation
